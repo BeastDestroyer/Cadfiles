@@ -6,7 +6,7 @@
 
 ---
 
-[Egpages](https://github.com/BeastDestroyer/Cadfiles/blob/main/enggg2.pdf%20abdul.pdf) 
+[Egpages](https://drive.google.com/file/d/1I2GT5KPkSF3qyTiKRV2QPu75QujxLxoM/view?usp=drivesdk) 
 
 ---
 
