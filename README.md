@@ -10,6 +10,6 @@
 
 ---
 
-[egpages2](https://github.com/BeastDestroyer/Cadfiles/blob/main/egg%20abdul.%20pdf.pdf) 
+[egpages2](https://drive.google.com/file/d/1pZjtjKuYzYPMzSqMCsfy3_fqqMbnU960/view?usp=drivesdk) 
 
 ---
