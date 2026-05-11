@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f2ec;
+      --surface: #fff;
+      --border: #e0dbd2;
+      --accent: #1a1a1a;
+      --muted: #999;
+      --hover-bg: #1a1a1a;
+      --hover-text: #f5f2ec;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 2.6rem;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+    }
+
+    .list {
+      list-style: none;
+    }
+
+    .list li {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .list li:last-child {
+      border-bottom: none;
+    }
+
+    .list li a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.05rem 1.4rem;
+      text-decoration: none;
+      color: var(--accent);
+      font-size: 0.8rem;
+      transition: background 0.15s, color 0.15s;
+      gap: 1rem;
+    }
+
+    .list li a:hover {
+      background: var(--hover-bg);
+      color: var(--hover-text);
+    }
+
+    .list li a:hover .arrow {
+      opacity: 1;
+      transform: translateX(2px);
+    }
+
+    .list li a .name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow {
+      font-size: 0.75rem;
+      opacity: 0.3;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .state {
+      padding: 2.5rem 1.4rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .state.error { color: #c0392b; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>PDF Library</h1>
+  <p>Click to open</p>
+</header>
+
+<div class="card">
+  <ul class="list" id="list">
+    <li><div class="state" id="status">Loading...</div></li>
+  </ul>
+</div>
+
+<script>
+  // ─── CONFIGURE THIS ───────────────────────────────────────────────
+  // Replace with your raw GitHub URL to the .md file
+  const MD_URL = "https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/pdfs.md";
+  // ──────────────────────────────────────────────────────────────────
+
+  // Parses lines like: [My PDF Name](https://raw.githubusercontent.com/.../file.pdf)
+  function parseLinks(md) {
+    const regex = /\[([^\]]+)\]\((https?:\/\/[^)]+\.pdf)\)/gi;
+    const results = [];
+    let match;
+    while ((match = regex.exec(md)) !== null) {
+      results.push({ name: match[1], url: match[2] });
+    }
+    return results;
+  }
+
+  async function load() {
+    const list = document.getElementById('list');
+    const status = document.getElementById('status');
+
+    try {
+      const res = await fetch(MD_URL);
+      if (!res.ok) throw new Error('Failed to fetch');
+      const md = await res.text();
+      const links = parseLinks(md);
+
+      if (links.length === 0) {
+        status.textContent = 'No PDF links found in the markdown file.';
+        return;
+      }
+
+      list.innerHTML = '';
+      links.forEach(({ name, url }) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${url}" target="_blank" rel="noopener noreferrer">
+            <span class="name">${name}</span>
+            <span class="arrow">↗</span>
+          </a>`;
+        list.appendChild(li);
+      });
+
+    } catch (e) {
+      status.className = 'state error';
+      status.textContent = '⚠ Could not load the file list. Check the MD_URL in the script.';
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>
