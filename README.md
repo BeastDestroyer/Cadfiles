@@ -2,7 +2,7 @@
 
 ---
 
-[Egmanual](https://github.com/BeastDestroyer/Cadfiles/blob/main/EG%20MANUAL-student%20manual-2025-26-All%20branches.pdf) 
+[Egmanual](https://drive.google.com/file/d/1k5n5yQJ6ztL-qYI1tyH_ihVpkiKC1F7E/view?usp=drivesdk) 
 
 ---
 
